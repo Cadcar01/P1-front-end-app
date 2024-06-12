@@ -1,9 +1,15 @@
-const userChoices = document.getElementById('userchoices');
-const questionForm = document.getElementById('questionform')
+const userChoices = document.getElementById('user-choices');
+const questionForm = document.getElementById('question-form');
+const selectOne = document.getElementById('category-type');
+const selectTwo = document.getElementById('difficulty');
+const selectThree = document.getElementById('question-type');
 
 const baseTriviaURL = 'https://opentdb.com/api.php?amount=10'
 
 function getTriviaURL() {
+  categoryEl = selectOne.value
+  difficultyEl = selectTwo.value
+  questionType = selectThree.value
 
   if (categoryEl == 'Entertainment: Books') {
     const userCategory = '&category=10'
@@ -53,7 +59,6 @@ function handleGetQuestions(userChosenURL) {
     })
 
     .then (function(questions) {
-      console.log(questions) // DELETE when done
       const quizQuestions = []
 
       const allPossibleAnswers = []
@@ -64,7 +69,6 @@ function handleGetQuestions(userChosenURL) {
         wrongAnswers.splice(randomNum, 0, questions.results[i].correct_answer);
         allPossibleAnswers.push(wrongAnswers);
       };
-      console.log(allPossibleAnswers); //DELETE when done
 
       for (let i = 0; i < questions.results.length; i++) {
         const individualQuestion = {
@@ -85,7 +89,6 @@ function handleGetQuestions(userChosenURL) {
 handleGetQuestions()
 
 function renderQuestions(quizQuestions) {
-  console.log(quizQuestions) //DELETE when done
 
   const quizForm = document.createElement('form');
   quizForm.setAttribute('id', 'quiz-form');
@@ -105,19 +108,19 @@ function renderQuestions(quizQuestions) {
 
       const trueLabel = document.createElement('label');
       trueLabel.textContent = 'True'
-      trueLabel.setAttribute('for', `questionTrue${i}`);
+      trueLabel.setAttribute('for', `questionAnswer${i}`);
       const trueEl = document.createElement('input');
       trueEl.setAttribute('type', 'radio');
-      trueEl.setAttribute('id', `questionTrue${i}`);
+      trueEl.setAttribute('id', `questionAnswer${i}`);
       trueEl.setAttribute('name', `trueOrFalse${i}`);
       trueEl.setAttribute('value', 'True');
 
       const falseLabel = document.createElement('label')
       falseLabel.textContent = 'False'
-      trueLabel.setAttribute('for', `questionFalse${i}`);
+      trueLabel.setAttribute('for', `questionAnswer${i}`);
       const falseEl = document.createElement('input');
       trueEl.setAttribute('type', 'radio');
-      trueEl.setAttribute('id', `questionFalse${i}`);
+      trueEl.setAttribute('id', `questionAnswer${i}`);
       trueEl.setAttribute('name', `trueOrFalse${i}`);
       trueEl.setAttribute('value', 'False');
 
@@ -129,44 +132,48 @@ function renderQuestions(quizQuestions) {
 
       const labelA = document.createElement('label');
       labelA.textContent = quizQuestions[i].all_answer[0];
-      labelA.setAttribute('for', `questionMulti${i}`);
+      labelA.setAttribute('for', `questionAnswer${i}`);
       const answerA = document.createElement('input');
+      answerA.textContent = `A: ${questionMultis[0]}`
       answerA.setAttribute('type', 'radio');
-      answerA.setAttribute('id', `questionMulti${i}`);
+      answerA.setAttribute('id', `questionAnswer${i}`);
       answerA.setAttribute('name', `questionMulti${i}`);
       answerA.setAttribute('value', `${quizQuestions[i].all_answer[0]}`);
 
       const labelB = document.createElement('label');
       labelB.textContent = quizQuestions[i].all_answer[1];
-      labelB.setAttribute('for', `questionMulti${i}`);
+      labelB.setAttribute('for', `questionAnswers${i}`);
       const answerB = document.createElement('input');
+      answerB.textContent = `B: ${questionMultis[1]}`
       answerB.setAttribute('type', 'radio');
-      answerB.setAttribute('id', `questionMulti${i}`);
+      answerB.setAttribute('id', `questionAnswer${i}`);
       answerB.setAttribute('name', `questionMulti${i}`);
       answerB.setAttribute('value', `${quizQuestions[i].all_answer[1]}`);
 
       const labelC = document.createElement('label');
       labelC.textContent = quizQuestions[i].all_answer[2];
-      labelC.setAttribute('for', `questionMulti${i}`);
+      labelC.setAttribute('for', `questionAnswer${i}`);
       const answerC = document.createElement('input');
+      answerC.textContent = `C: ${questionMultis[2]}`
       answerC.setAttribute('type', 'radio');
-      answerC.setAttribute('id', `questionMulti${i}`);
+      answerC.setAttribute('id', `questionAnswer${i}`);
       answerC.setAttribute('name', `questionMulti${i}`);
       answerC.setAttribute('value', `${quizQuestions[i].all_answer[2]}`);
 
       const labelD = document.createElement('label');
       labelD.textContent = quizQuestions[i].all_answer[3];
-      labelD.setAttribute('for', `questionMulti${i}`);
+      labelD.setAttribute('for', `questionAnswer${i}`);
       const answerD = document.createElement('input');
+      answerD.textContent = `D: ${questionMultis[3]}`
       answerD.setAttribute('type', 'radio');
-      answerD.setAttribute('id', `questionMulti${i}`);
+      answerD.setAttribute('id', `questionAnswer${i}`);
       answerD.setAttribute('name', `questionMulti${i}`);
       answerD.setAttribute('value', `${quizQuestions[i].all_answer[3]}`);
 
       answerFieldset.appendChild(labelA, answerA, labelB, answerB, labelC, answerC, labelD, answerD);
       questionDiv.appendChild(answerFieldset);
-    }
-    document.body.appendChild(questionDiv)
+    };
+    
   };
 
   const submitButton = document.createElement('button');
@@ -176,6 +183,16 @@ function renderQuestions(quizQuestions) {
 
 };
 
+function getUserAnswers() {
+  const userAnswers = [];
+  
+  for (let i = 0; i < quizQuestions.length; i++) {
+    const userQuestionAnswer = document.getElementById(`questionAnswer${i}`).value;
+    userAnswers.push(userQuestionAnswer);
+  }
+  localStorage.setItem(JSON.stringify('Answers', userAnswers));
+};
+
 userChoices.addEventListener('submit', getTriviaURL);
 
 questionForm.addEventListener('submit', function(event) {
@@ -183,7 +200,8 @@ questionForm.addEventListener('submit', function(event) {
 
   const element = event.target
   if (element.matches('button')) {
-  //function to collect data and save to local storage
-  location.assign('./second.html'); //need to fix second.html location
-  }
+  getUserAnswers()
+  location.assign('./results.html');
+  };
+
 });
