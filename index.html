@@ -1,32 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>trivia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <style>
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trivia App</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
-    <link rel="stylesheet" href="./assets/css/styles.css" />
-  </head>
-
-  <body>
-    <div class="modal">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Modal title</p>
-          <button class="delete" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
-          <!-- Content ... -->
-        </section>
-        <footer class="modal-card-foot">
-          <div class="buttons">
-            <button class="button is-success">Save changes</button>
-            <button class="button">Cancel</button>
-          </div>
-        </footer>
-      </div>
+    </style>
+</head>
+<body>
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <p class="title">trivia</p>
     </div>
-    <script src="./assets/js/script.js"></script>
-  </body>
+  </section>
+  <div id="modal-trivia" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Modal title</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+        <form id="modal-form">
+          <label>pick a category</label>
+          <select id="category-type">
+            <option value="Entertainment: Books">Books</option>
+            <option value="Entertainment: Film">Film</option>
+            <option value="Entertainment: Music">Music</option>
+            <option value="Entertainment: Musicals & Theatres">Musicals & Theatres</option>
+            <option value="Entertainment: Television">Television</option>
+            <option value="Entertainment: Video Games">Video Games</option>
+            <option value="Entertainment: Board Games">Board Games</option>
+            <option value="Entertainment: Japanese Anime & Manga">Japanese Anime & Manga</option>
+            <option value="Entertainment: Cartoon & Animations">Cartoon & Animations</option>
+          </select>
+          <label>pick a difficulty</label>
+          <select id="difficulty">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+          <label>Pick question type</label>
+          <select id="question-type">
+            <option value="Multiple Choice">Multiple Choice</option>
+            <option value="True or False">True or False</option>
+            <option value="Both">Both</option>
+          </select>
+
+        </form> 
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button type="'submit" id="user-choices" form="modal-form" class="button is-success">Start trivia</button>
+          <button class="button">Cancel</button>
+        </div>
+      </footer>
+        </div>
+      </div>
+      <button id="start-button" class="button is-primary js-modal-trigger" data-target="modal-trivia">Start</button>
+      <div id="question-form">
+        <form id="quiz-form"></form>
+      </div>
+    <script src = "./assets/js/script.js"></script>
+</body>
+</html>
