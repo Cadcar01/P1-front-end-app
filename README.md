@@ -16,6 +16,18 @@ The goal is to build a trivia game and when the user wins they are rewarded with
 
 [HumorApi](https://humorapi.com/)
 
+[Adobe Stock](https://stock.adobe.com/)
+
+## Screenshots
+
+[Pop Culture Flex main page]()
+
+[Pop Culture Flex settings menu]()
+
+[Pop Culture Flex Results page]()
+
+
+
 ## Links
 
 [Github](https://github.com/Cadcar01/Pop-Culture-Trivia-App)
