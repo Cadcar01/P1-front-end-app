@@ -1,12 +1,9 @@
-const userChoices = document.getElementById('user-choices'); // No longer need
 const modalForm = document.getElementById('modal-form');
 const questionForm = document.getElementById('question-form');
-const quizForm = document.getElementById('quiz-form')
+const quizForm = document.getElementById('quiz-form');
 const selectOne = document.getElementById('category-type');
 const selectTwo = document.getElementById('difficulty');
 const selectThree = document.getElementById('question-type');
-
-const baseTriviaURL = 'https://opentdb.com/api.php?amount=10' //Don't need anymore
 
 // Function for taking the user's quiz choices and alters the URL used in the fetch
 function getTriviaURL(event) {
@@ -24,7 +21,7 @@ function getTriviaURL(event) {
     userCategory = '&category=11';
   } else if (categoryEl == 'Entertainment: Music') {
     userCategory = '&category=12';
-  } else if (categoryEl == 'Entertainment: Musicals & Theatres') { // Double check this one
+  } else if (categoryEl == 'Entertainment: Musicals & Theatres') {
     userCategory = '&category=13';
   } else if (categoryEl == 'Entertainment: Television') {
     userCategory = '&category=14';
@@ -55,7 +52,6 @@ function getTriviaURL(event) {
   };
 
   const userChosenURL = `https://opentdb.com/api.php?amount=10${userCategory}${userDifficulty}${userQuestionType}`
-  console.log(userChosenURL) // DELETE when done
   handleGetQuestions(userChosenURL);
 
 };
@@ -68,7 +64,6 @@ function handleGetQuestions(userChosenURL) {
     })
 
     .then(function (questions) {
-      console.log('just the data', questions) // Delete when done
       const quizQuestions = [];
 
       const allPossibleAnswers = [];
@@ -90,10 +85,16 @@ function handleGetQuestions(userChosenURL) {
         quizQuestions.push(individualQuestion)
       };
       localStorage.setItem('questions', JSON.stringify(quizQuestions));
-      console.log('my array', quizQuestions) // DELETE when done
       renderQuestions(quizQuestions);
 
     });
+};
+
+// Function for getting rid of html entities
+function decodeHtml(html) {
+  var txt = document.createElement("textarea");
+  txt.innerHTML = html;
+  return txt.value;
 };
 
 // Function for rendering the quiz questions to the webpage
@@ -101,8 +102,10 @@ function renderQuestions(quizQuestions) {
 
   for (let i = 0; i < quizQuestions.length; i++) {
     questionDiv = document.createElement('div');
-    questionEl = document.createElement('p')
-    questionEl.textContent = quizQuestions[i].question
+    questionDiv.classList.add('columns', 'custom-border');
+    questionEl = document.createElement('p');
+    questionEl.classList.add('column', 'is-offset-1', 'is-8', 'is-flex', 'is-justify-content-center', 'is-align-items-center');
+    questionEl.textContent = decodeHtml(quizQuestions[i].question);
 
     quizForm.appendChild(questionDiv)
     questionDiv.appendChild(questionEl)
@@ -110,6 +113,10 @@ function renderQuestions(quizQuestions) {
     // This section is used for rendering true or false answer radio buttons
     if (quizQuestions[i].type == 'boolean') {
       const answerFieldset = document.createElement('fieldset');
+      answerFieldset.classList.add('column', 'is-3', 'is-flex-direction-column', 'custom-border-left');
+
+      const answerDivTrue = document.createElement('div');
+      answerDivTrue.classList.add('column', 'is-12', 'py-0');
 
       const trueLabel = document.createElement('label');
       trueLabel.textContent = 'True'
@@ -120,7 +127,10 @@ function renderQuestions(quizQuestions) {
       trueEl.setAttribute('name', `quizInput${i}`);
       trueEl.setAttribute('value', 'True');
 
-      const falseLabel = document.createElement('label')
+      const answerDivFalse = document.createElement('div');
+      answerDivFalse.classList.add('column', 'is-12', 'py-0');
+
+      const falseLabel = document.createElement('label');
       falseLabel.textContent = 'False'
       trueLabel.setAttribute('for', `questionAnswerFalse${i}`);
       const falseEl = document.createElement('input');
@@ -129,14 +139,18 @@ function renderQuestions(quizQuestions) {
       falseEl.setAttribute('name', `quizInput${i}`);
       falseEl.setAttribute('value', 'False');
 
-      answerFieldset.append(trueEl, trueLabel, falseEl, falseLabel);
+      answerDivTrue.append(trueEl, trueLabel);
+      answerDivFalse.append(falseEl, falseLabel);
+      answerFieldset.append(answerDivTrue, answerDivFalse);
       questionDiv.appendChild(answerFieldset);
 
       // This section is used for rendering multiple choice radio buttons
     } else if (quizQuestions[i].type == 'multiple') {
       const answerFieldset = document.createElement('fieldset');
+      answerFieldset.classList.add('column', 'is-3', 'is-flex-direction-column', 'custom-border-left');
 
-      //console.log('quizQuestions', quizQuestions[i])
+      const answerDivA = document.createElement('div');
+      answerDivA.classList.add('column', 'is-12', 'py-0');
 
       const labelA = document.createElement('label');
       labelA.textContent = quizQuestions[i].all_answers[0];
@@ -148,6 +162,9 @@ function renderQuestions(quizQuestions) {
       answerA.setAttribute('name', `quizInput${i}`);
       answerA.setAttribute('value', `${quizQuestions[i].all_answers[0]}`);
 
+      const answerDivB = document.createElement('div');
+      answerDivB.classList.add('column', 'is-12', 'py-0');
+
       const labelB = document.createElement('label');
       labelB.textContent = quizQuestions[i].all_answers[1];
       labelB.setAttribute('for', `questionAnswerB${i}`);
@@ -157,6 +174,9 @@ function renderQuestions(quizQuestions) {
       answerB.setAttribute('id', `questionAnswerB${i}`);
       answerB.setAttribute('name', `quizInput${i}`);
       answerB.setAttribute('value', `${quizQuestions[i].all_answers[1]}`);
+
+      const answerDivC = document.createElement('div');
+      answerDivC.classList.add('column', 'is-12', 'py-0');
 
       const labelC = document.createElement('label');
       labelC.textContent = quizQuestions[i].all_answers[2];
@@ -168,6 +188,9 @@ function renderQuestions(quizQuestions) {
       answerC.setAttribute('name', `quizInput${i}`);
       answerC.setAttribute('value', `${quizQuestions[i].all_answers[2]}`);
 
+      const answerDivD = document.createElement('div');
+      answerDivD.classList.add('column', 'is-12', 'py-0');
+
       const labelD = document.createElement('label');
       labelD.textContent = quizQuestions[i].all_answers[3];
       labelD.setAttribute('for', `questionAnswerD${i}`);
@@ -178,7 +201,11 @@ function renderQuestions(quizQuestions) {
       answerD.setAttribute('name', `quizInput${i}`);
       answerD.setAttribute('value', `${quizQuestions[i].all_answers[3]}`);
 
-      answerFieldset.append(answerA, labelA, answerB, labelB, answerC, labelC, answerD, labelD);
+      answerDivA.append(answerA, labelA);
+      answerDivB.append(answerB, labelB);
+      answerDivC.append(answerC, labelC);
+      answerDivD.append(answerD, labelD);
+      answerFieldset.append(answerDivA, answerDivB, answerDivC, answerDivD);
       questionDiv.appendChild(answerFieldset);
     };
 
@@ -190,7 +217,6 @@ function renderQuestions(quizQuestions) {
   submitButton.setAttribute('form', 'quiz-form');
   submitButton.setAttribute('id', 'submit-button');
   submitButton.classList.add("button", "is-primary")
-  //submitButton.classList.add('btn', 'is-primary')
 
   questionForm.appendChild(submitButton);
 
@@ -205,7 +231,7 @@ function getUserAnswers() {
     const userQuestionAnswer = document.querySelector(`input[name="quizInput${i}"]:checked`).value
     userAnswers.push(userQuestionAnswer);
   }
-  localStorage.setItem('Answers', JSON.stringify(userAnswers));
+  localStorage.setItem('answers', JSON.stringify(userAnswers));
 };
 
 // Event listeners for the user submiting the form of what type of quiz they want and submitting their quiz answers
@@ -213,14 +239,11 @@ modalForm.addEventListener('submit', getTriviaURL);
 
 quizForm.addEventListener('submit', function (event) {
   event.preventDefault();
-  console.log('hit')
 
   const element = event.target
-  console.log(element)
   if (element.matches('form')) {
-    console.log('hit')
     getUserAnswers()
-    //location.assign('./results.html');
+    location.assign('./results.html');
   };
 });
 
