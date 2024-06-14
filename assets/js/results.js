@@ -30,6 +30,9 @@ function showResults() {
 }
 
 function showAnswers(array) {
+    const questionDiv = document.createElement('div')
+    questionDiv.classList.add('has-background-white-ter')
+
     const question = document.createElement('p')
     question.textContent = decodeHtml(array.question)
     question.classList.add('is-size-5', 'has-text-weight-bold')
@@ -38,8 +41,9 @@ function showAnswers(array) {
     correctAnswer.textContent = `correct answer: ${array.correct_answer}`
     correctAnswer.classList.add('is-size-5')
 
-    displayAnswers.appendChild(question)
-    displayAnswers.appendChild(correctAnswer)
+    questionDiv.appendChild(question)
+    questionDiv.appendChild(correctAnswer)
+    displayAnswers.appendChild(questionDiv)
 }
 
 function getApi() {
