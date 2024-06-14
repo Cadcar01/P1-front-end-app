@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>trivia</title>
+    <title>Pop Culture Flex</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">
     <style>
 
     </style>
@@ -26,7 +26,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Modal title</p>
+        <p class="modal-card-title">Choose your quiz</p>
         <button class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
@@ -60,7 +60,7 @@
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button id="user-choices" class="button is-success">Start trivia</button>
+          <button type="'submit" id="user-choices" form="modal-form" class="button is-success">Start trivia</button>
           <button class="button">Cancel</button>
         </div>
       </footer>
@@ -68,8 +68,9 @@
       </div>
       <div class="my-1 is-flex is-justify-content-center">
       <button id="start-button" class="button is-primary js-modal-trigger" data-target="modal-trivia">Start</button>
+      <div id="question-form">
+        <form id="quiz-form" class="my-4"></form>
       </div>
-      <div id="question-form"></div>
-    <script src = "/assets/js/script.js"></script>
+    <script src = "./assets/js/script.js"></script>
 </body>
 </html>

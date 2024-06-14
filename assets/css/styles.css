@@ -1,0 +1,8 @@
+.custom-border {
+    border-top: solid black;
+    border-bottom: solid black;
+}
+
+.custom-border-left {
+    border-left: solid black;
+}
