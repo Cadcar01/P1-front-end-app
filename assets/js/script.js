@@ -8,6 +8,9 @@ const selectThree = document.getElementById('question-type');
 // Function for taking the user's quiz choices and alters the URL used in the fetch
 function getTriviaURL(event) {
   event.preventDefault();
+
+  quizForm.innerHTML = ''
+
   let categoryEl = selectOne.value;
   let difficultyEl = selectTwo.value;
   let questionType = selectThree.value;
@@ -64,6 +67,16 @@ function handleGetQuestions(userChosenURL) {
     })
 
     .then(function (questions) {
+
+      if (questions.response_code == 1) {
+        const explanationDiv = document.createElement('div');
+        const explanationP = document.createElement('p');
+        explanationP.textContent = `We are sorry but there are not enough questions for your quiz request. Please choose a different category, difficulty or question type`;
+        quizForm.appendChild(explanationDiv);
+        explanationDiv.appendChild(explanationP);
+        return
+      }
+
       const quizQuestions = [];
 
       const allPossibleAnswers = [];
@@ -74,6 +87,12 @@ function handleGetQuestions(userChosenURL) {
         wrongAnswers.splice(randomNum, 0, questions.results[i].correct_answer);
         allPossibleAnswers.push(wrongAnswers);
       };
+
+      for (let i = 0; i < allPossibleAnswers.length; i++) {
+        for (let y = 0; y < allPossibleAnswers[i].length; y++) {
+          allPossibleAnswers[i][y] = decodeHtml(allPossibleAnswers[i][y]);
+        }
+      }
 
       for (let i = 0; i < questions.results.length; i++) {
         const individualQuestion = {
@@ -101,10 +120,10 @@ function decodeHtml(html) {
 function renderQuestions(quizQuestions) {
 
   for (let i = 0; i < quizQuestions.length; i++) {
-    questionDiv = document.createElement('div');
+    const questionDiv = document.createElement('div');
     questionDiv.classList.add('columns', 'custom-border');
-    questionEl = document.createElement('p');
-    questionEl.classList.add('column', 'is-offset-1', 'is-8', 'is-flex', 'is-justify-content-center', 'is-align-items-center');
+    const questionEl = document.createElement('p');
+    questionEl.classList.add('column', 'is-offset-1', 'is-8', 'is-flex', 'is-justify-content-center', 'is-align-items-center', 'has-text-weight-bold');
     questionEl.textContent = decodeHtml(quizQuestions[i].question);
 
     quizForm.appendChild(questionDiv)
@@ -153,10 +172,10 @@ function renderQuestions(quizQuestions) {
       answerDivA.classList.add('column', 'is-12', 'py-0');
 
       const labelA = document.createElement('label');
-      labelA.textContent = quizQuestions[i].all_answers[0];
+      labelA.textContent = `A: ${quizQuestions[i].all_answers[0]}`;
       labelA.setAttribute('for', `questionAnswerA${i}`);
       const answerA = document.createElement('input');
-      answerA.textContent = `A: ${quizQuestions[i].all_answers[0]}`
+      answerA.textContent = quizQuestions[i].all_answers[0];
       answerA.setAttribute('type', 'radio');
       answerA.setAttribute('id', `questionAnswerA${i}`);
       answerA.setAttribute('name', `quizInput${i}`);
@@ -166,10 +185,10 @@ function renderQuestions(quizQuestions) {
       answerDivB.classList.add('column', 'is-12', 'py-0');
 
       const labelB = document.createElement('label');
-      labelB.textContent = quizQuestions[i].all_answers[1];
+      labelB.textContent = `B: ${quizQuestions[i].all_answers[1]}`;
       labelB.setAttribute('for', `questionAnswerB${i}`);
       const answerB = document.createElement('input');
-      answerB.textContent = `B: ${quizQuestions[i].all_answers[1]}`
+      answerB.textContent = quizQuestions[i].all_answers[1];
       answerB.setAttribute('type', 'radio');
       answerB.setAttribute('id', `questionAnswerB${i}`);
       answerB.setAttribute('name', `quizInput${i}`);
@@ -179,10 +198,10 @@ function renderQuestions(quizQuestions) {
       answerDivC.classList.add('column', 'is-12', 'py-0');
 
       const labelC = document.createElement('label');
-      labelC.textContent = quizQuestions[i].all_answers[2];
+      labelC.textContent = `C: ${quizQuestions[i].all_answers[2]}`;
       labelC.setAttribute('for', `questionAnswerC${i}`);
       const answerC = document.createElement('input');
-      answerC.textContent = `C: ${quizQuestions[i].all_answers[2]}`
+      answerC.textContent = quizQuestions[i].all_answers[2];
       answerC.setAttribute('type', 'radio');
       answerC.setAttribute('id', `questionAnswerC${i}`);
       answerC.setAttribute('name', `quizInput${i}`);
@@ -192,10 +211,10 @@ function renderQuestions(quizQuestions) {
       answerDivD.classList.add('column', 'is-12', 'py-0');
 
       const labelD = document.createElement('label');
-      labelD.textContent = quizQuestions[i].all_answers[3];
+      labelD.textContent = `D: ${quizQuestions[i].all_answers[3]}`;
       labelD.setAttribute('for', `questionAnswerD${i}`);
       const answerD = document.createElement('input');
-      answerD.textContent = `D: ${quizQuestions[i].all_answers[3]}`
+      answerD.textContent = quizQuestions[i].all_answers[3];
       answerD.setAttribute('type', 'radio');
       answerD.setAttribute('id', `questionAnswerD${i}`);
       answerD.setAttribute('name', `quizInput${i}`);
@@ -211,6 +230,8 @@ function renderQuestions(quizQuestions) {
 
   };
 
+  const buttonDiv = document.createElement('div');
+  buttonDiv.classList.add('is-flex', 'is-justify-content-center')
   const submitButton = document.createElement('button');
   submitButton.textContent = 'Submit quiz answers';
   submitButton.setAttribute('type', 'submit');
@@ -218,10 +239,12 @@ function renderQuestions(quizQuestions) {
   submitButton.setAttribute('id', 'submit-button');
   submitButton.classList.add("button", "is-primary")
 
-  questionForm.appendChild(submitButton);
+  quizForm.appendChild(buttonDiv);
+  buttonDiv.appendChild(submitButton);
 
 };
 
+// Function for collecting the users answers
 function getUserAnswers() {
   const userAnswers = [];
 
