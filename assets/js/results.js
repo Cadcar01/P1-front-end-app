@@ -21,13 +21,13 @@ function showResults() {
         } else {
             userAnswer.classList.add('has-text-danger')
         }
-        if (userScore > 4) {
-        results.textContent = 'Congratulations! You Win!'
-        } else {
-        results.textContent = 'Good Game! Brush up on your pop culture knowledge and try again.'
-        }
     }
+    if (userScore > 4) {
+    results.textContent = 'Congratulations! You Win!'
     getApi()
+    } else {
+    results.textContent = 'Good Game! Brush up on your pop culture knowledge and try again.'
+    }
 }
 
 function showAnswers(array) {
