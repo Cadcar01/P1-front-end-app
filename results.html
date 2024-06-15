@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trivia App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+
+  <body>
+    <header class="hero is-primary">
+      <div class="hero-body is-flex is-align-items-center is-justify-content-space-between">
+        <img src="/assets/images/book.png" alt="Image 1" class="image is-64x64">
+        <img src="/assets/images/controller.png" alt="Image 2" class="image is-64x64">
+        <img src="/assets/images/dice.png" alt="Image 3" class="image is-64x64">
+        <p class="title" style="margin: 0 20px;">Pop Culture Flex</p>
+        <img src="/assets/images/movieslate.png" alt="Image 4" class="image is-64x64">
+        <img src="/assets/images/musicnote.png" alt="Image 5" class="image is-64x64">
+        <img src="/assets/images/tv.png" alt="Image 6" class="image is-64x64">
+      </div>
+    </header>
+
+    <h2 id="winLose" class=" is-size-3 has-text-centered"><!--win or lose text goes here--></h2>
+
+    <p id="joke" class="has-text-centered"> <!--joke api goes here--> </p>
+
+    <section id="answersEl" class="has-text-centered"><!--insert questions and right or wrong answers here--></section>
+
+    <div class="has-text-centered my-2">
+    <button id="backBtn" class="button is-link has-text-centered my-2">Play Again</button>
+    </div>
+
+    <footer>
+        <h3 class="has-text-centered">Made by 
+          <a class="has-text-centered" href="https://github.com/anrichter2">Aaron Richter,</a> 
+          <a class="has-text-centered" href="https://github.com/cadcar01">Caden Carlson, </a> and
+          <a class="has-text-centered" href="https://github.com/ryuvue">Ryu Vue</a>
+        </h3>
+    </footer>
+
+    <script src="./assets/js/results.js"></script>
+  </body>
