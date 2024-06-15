@@ -26,6 +26,7 @@ function showResults() {
         } else {
         results.textContent = 'Good Game! Brush up on your pop culture knowledge and try again.'
         }
+        getApi()
     }
 }
 
@@ -66,4 +67,3 @@ function decodeHtml(html) {
   };
 
 showResults()
-getApi()
